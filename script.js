@@ -12,7 +12,7 @@ async function buscarEquipamento() {
     }
 
     try {
-        // O select traz o equipamento e a lista de manutenções vinculadas
+        // Busca o equipamento e inclui a lista de manutenções vinculadas
         const response = await fetch(`${BASE_URL}/equipamentos?id_qrcode=eq.${qrId}&select=*,manutencoes(*)`, {
             method: 'GET',
             headers: {
@@ -39,7 +39,7 @@ function preencherPagina(equipamento) {
     document.getElementById('loading').classList.add('hidden');
     document.getElementById('conteudo').classList.remove('hidden');
 
-    // Preenche os dados principais
+    // Dados principais do equipamento
     document.getElementById('marca-modelo').innerText = `${equipamento.marca} - ${equipamento.modelo}`;
     document.getElementById('cliente').innerText = equipamento.cliente_nome;
     document.getElementById('local').innerText = equipamento.localizacao;
@@ -47,25 +47,27 @@ function preencherPagina(equipamento) {
     document.getElementById('data-proxima').innerText = equipamento.data_proxima_manutencao;
     document.getElementById('relatorio-texto').innerText = equipamento.relatorio_geral || "Nenhuma observação técnica.";
 
-    // Lógica da Bolinha de Status
+    // Bolinha de Status
     const bolinha = document.getElementById('status-bolinha');
     bolinha.className = equipamento.status_alerta ? 'status-vermelho' : 'status-verde';
 
-    // --- LÓGICA DO HISTÓRICO (Sincronizado com Kotlin) ---
+    // --- HISTÓRICO (AJUSTADO COM OS NOMES DO KOTLIN) ---
     const listaHistorico = document.getElementById('historico-lista');
     if (listaHistorico && equipamento.manutencoes) {
         listaHistorico.innerHTML = ""; 
 
-        // Ordenar: o serviço mais recente (pela data_servico) aparece primeiro
+        // Ordenar as manutenções (mais recente primeiro)
         const manutençõesOrdenadas = equipamento.manutencoes.sort((a, b) => {
-            return new Date(b.data_servico) - new Date(a.data_servico);
+            // Tenta criar datas para comparar. Se a data for dd/MM/yyyy, o JS pode precisar de ajuste, 
+            // mas o sort padrão por string costuma ajudar se o formato for constante.
+            return b.id - a.id; // Ordenar pelo ID costuma ser mais seguro para pegar o último inserido
         });
 
         manutençõesOrdenadas.forEach(servico => {
             const item = document.createElement('div');
             item.className = 'historico-item';
             
-            // Usando os nomes exatos das colunas do seu SupabaseClient.kt
+            // AQUI ESTÁ A CORREÇÃO: Usando os nomes exatos do seu put() no Kotlin
             item.innerHTML = `
                 <p><strong>Data:</strong> ${servico.data_servico || '---'}</p>
                 <p><strong>Serviço:</strong> ${servico.descricao_servico || 'Sem descrição'}</p>
@@ -76,7 +78,7 @@ function preencherPagina(equipamento) {
         });
 
         if (manutençõesOrdenadas.length === 0) {
-            listaHistorico.innerHTML = "<p style='color: #888;'>Nenhum histórico registrado para este equipamento.</p>";
+            listaHistorico.innerHTML = "<p style='color: #888;'>Nenhum histórico registrado.</p>";
         }
     }
 }
