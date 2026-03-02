@@ -8,11 +8,12 @@ body {
     align-items: center;
     min-height: 100vh;
     color: #333;
+    padding: 20px; /* Evita que o card cole nas bordas do celular */
 }
 
 #app {
     background: white;
-    width: 90%;
+    width: 100%; /* Ocupa o máximo no celular */
     max-width: 500px;
     padding: 25px;
     border-radius: 15px;
@@ -21,7 +22,7 @@ body {
 }
 
 header h1 {
-    color: #0056b3; /* Azul padrão do seu app */
+    color: #0056b3; 
     margin-bottom: 5px;
 }
 
@@ -31,24 +32,27 @@ header p {
     margin-bottom: 20px;
 }
 
-/* Card de Informações */
+/* Card de Informações Principais */
 .card {
     border: 1px solid #eee;
     padding: 20px;
     border-radius: 10px;
     position: relative;
     text-align: left;
+    background-color: #fff;
 }
 
 /* Bolinha de Status (Dinâmica) */
 #status-bolinha {
-    width: 15px;
-    height: 15px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     position: absolute;
     top: 20px;
     right: 20px;
-    background-color: #ccc; /* Cinza enquanto carrega */
+    background-color: #ccc;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
 
 .status-verde { background-color: #28a745 !important; }
@@ -59,37 +63,52 @@ hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
 
 .relatorio {
     background: #f9f9f9;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 12px;
+    border-radius: 8px;
     margin-top: 15px;
+    border-left: 3px solid #ccc;
 }
 
-/* NOVO: Estilo para a lista de histórico */
+/* --- SEÇÃO DE HISTÓRICO --- */
 .historico-secao {
-    margin-top: 20px;
+    margin-top: 30px;
+    text-align: left;
 }
 
 .historico-secao h3 {
     font-size: 1.1em;
     color: #0056b3;
     border-bottom: 2px solid #0056b3;
-    padding-bottom: 5px;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
 }
 
 .historico-item {
     background: #ffffff;
-    border-left: 4px solid #0056b3; /* Barrinha azul lateral */
-    padding: 10px;
-    margin-bottom: 10px;
+    border-left: 4px solid #0056b3; 
+    padding: 12px;
+    margin-bottom: 12px;
     font-size: 0.9em;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08); /* Sombra mais visível */
 }
 
 .historico-item p {
-    margin: 5px 0;
+    margin: 6px 0;
+}
+
+/* Estilo para destacar a próxima manutenção no histórico */
+.proxima-manutencao-texto {
+    color: #d35400; /* Laranja escuro */
+    font-weight: bold;
+    background: #fff5eb;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 5px;
 }
 
 .hidden { display: none; }
 
-#loading { color: #0056b3; font-weight: bold; }
-#erro { color: #dc3545; font-weight: bold; }
+#loading { color: #0056b3; font-weight: bold; padding: 20px; }
+#erro { color: #dc3545; font-weight: bold; padding: 20px; }
