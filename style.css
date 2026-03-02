@@ -32,7 +32,7 @@ header p {
     margin-bottom: 20px;
 }
 
-/* Card de Informações Principais (Topo) */
+/* Card de Informações Principais (Topo - Sem Datas) */
 .card {
     border: 1px solid #eee;
     padding: 20px;
@@ -61,15 +61,22 @@ header p {
 
 hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
 
+/* Relatório Geral do Equipamento */
 .relatorio {
     background: #f9f9f9;
     padding: 12px;
     border-radius: 8px;
     margin-top: 15px;
-    border-left: 3px solid #ccc;
+    border-left: 3px solid #0056b3; /* Destaque azul para combinar com o tema */
 }
 
-/* --- SEÇÃO DE HISTÓRICO (5 INFORMAÇÕES) --- */
+.relatorio h3 {
+    font-size: 1em;
+    margin-top: 0;
+    color: #0056b3;
+}
+
+/* --- SEÇÃO DE HISTÓRICO (Onde as datas aparecem agora) --- */
 .historico-secao {
     margin-top: 30px;
     text-align: left;
@@ -86,7 +93,7 @@ hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
 .historico-item {
     background: #ffffff;
     border-left: 4px solid #0056b3; 
-    padding: 15px; /* Aumentado para acomodar as 5 infos */
+    padding: 15px; 
     margin-bottom: 15px;
     font-size: 0.95em;
     border-radius: 0 8px 8px 0;
@@ -94,25 +101,25 @@ hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
 }
 
 .historico-item p {
-    margin: 8px 0; /* Espaçamento melhor entre linhas */
+    margin: 8px 0; /* Espaçamento ideal para as 5 linhas de info */
 }
 
-/* Destaque para o TIPO DE SERVIÇO (Campo novo) */
-.historico-item p strong:contains("Tipo") + span, 
+/* Destaque para o TIPO DE SERVIÇO e DATA */
+.historico-item p:nth-child(1), 
 .historico-item p:nth-child(2) {
-    color: #0056b3;
+    color: #333;
     font-weight: 600;
 }
 
-/* Estilo para destacar a próxima manutenção no histórico */
+/* Estilo para destacar a PRÓXIMA MANUTENÇÃO (Única no histórico) */
 .proxima-manutencao-texto {
-    color: #d35400; /* Laranja escuro */
+    color: #d35400; /* Laranja escuro para alerta */
     font-weight: bold;
     background: #fff5eb;
-    padding: 6px 10px;
+    padding: 8px 12px;
     border-radius: 6px;
-    display: block; /* Ocupa a linha toda para destaque */
-    margin-top: 8px;
+    display: block; /* Ocupa a linha toda para dar ênfase */
+    margin-top: 10px;
     border: 1px dashed #ffcc99;
 }
 
