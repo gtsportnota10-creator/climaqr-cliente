@@ -66,7 +66,7 @@ function preencherPagina(equipamento) {
                 <p><strong>Data do Serviço:</strong> ${servico.data_servico || '---'}</p>
                 <p><strong>Serviço Realizado:</strong> ${servico.descricao_servico || 'Sem descrição'}</p>
                 <p><strong>Técnico:</strong> ${servico.tecnico_responsavel || 'Não informado'}</p>
-                <p style="color: #e67e22;"><strong>Próxima Manutenção:</strong> ${servico.proxima_data || 'Não agendada'}</p>
+                <p class="proxima-manutencao-texto"><strong>Próxima Manutenção:</strong> ${servico.proxima_data || 'Não agendada'}</p>
                 <hr style="border: 0.5px solid #eee; margin-top: 10px; margin-bottom: 10px;">
             `;
             listaHistorico.appendChild(item);
