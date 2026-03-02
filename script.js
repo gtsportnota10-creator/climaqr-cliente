@@ -12,7 +12,7 @@ async function buscarEquipamento() {
     }
 
     try {
-        // AJUSTE AQUI: O select agora pede o equipamento E as manutenções relacionadas
+        // O select traz o equipamento e a lista de manutenções vinculadas
         const response = await fetch(`${BASE_URL}/equipamentos?id_qrcode=eq.${qrId}&select=*,manutencoes(*)`, {
             method: 'GET',
             headers: {
@@ -39,6 +39,7 @@ function preencherPagina(equipamento) {
     document.getElementById('loading').classList.add('hidden');
     document.getElementById('conteudo').classList.remove('hidden');
 
+    // Preenche os dados principais
     document.getElementById('marca-modelo').innerText = `${equipamento.marca} - ${equipamento.modelo}`;
     document.getElementById('cliente').innerText = equipamento.cliente_nome;
     document.getElementById('local').innerText = equipamento.localizacao;
@@ -46,32 +47,36 @@ function preencherPagina(equipamento) {
     document.getElementById('data-proxima').innerText = equipamento.data_proxima_manutencao;
     document.getElementById('relatorio-texto').innerText = equipamento.relatorio_geral || "Nenhuma observação técnica.";
 
-    // Status Bolinha
+    // Lógica da Bolinha de Status
     const bolinha = document.getElementById('status-bolinha');
     bolinha.className = equipamento.status_alerta ? 'status-vermelho' : 'status-verde';
 
-    // --- LÓGICA DO HISTÓRICO ---
+    // --- LÓGICA DO HISTÓRICO (Sincronizado com Kotlin) ---
     const listaHistorico = document.getElementById('historico-lista');
     if (listaHistorico && equipamento.manutencoes) {
-        listaHistorico.innerHTML = ""; // Limpa antes de preencher
+        listaHistorico.innerHTML = ""; 
 
-        // Ordenar as manutenções pela data (mais recente primeiro)
-        const manutençõesOrdenadas = equipamento.manutencoes.sort((a, b) => new Date(b.data) - new Date(a.data));
+        // Ordenar: o serviço mais recente (pela data_servico) aparece primeiro
+        const manutençõesOrdenadas = equipamento.manutencoes.sort((a, b) => {
+            return new Date(b.data_servico) - new Date(a.data_servico);
+        });
 
         manutençõesOrdenadas.forEach(servico => {
             const item = document.createElement('div');
             item.className = 'historico-item';
+            
+            // Usando os nomes exatos das colunas do seu SupabaseClient.kt
             item.innerHTML = `
-                <p><strong>Data:</strong> ${servico.data}</p>
-                <p><strong>Serviço:</strong> ${servico.descricao}</p>
-                <p><strong>Técnico:</strong> ${servico.tecnico || 'Não informado'}</p>
-                <hr style="border: 0.5px solid #444; margin-top: 10px;">
+                <p><strong>Data:</strong> ${servico.data_servico || '---'}</p>
+                <p><strong>Serviço:</strong> ${servico.descricao_servico || 'Sem descrição'}</p>
+                <p><strong>Técnico:</strong> ${servico.tecnico_responsavel || 'Não informado'}</p>
+                <hr style="border: 0.5px solid #eee; margin-top: 10px;">
             `;
             listaHistorico.appendChild(item);
         });
 
         if (manutençõesOrdenadas.length === 0) {
-            listaHistorico.innerHTML = "<p>Nenhum histórico registrado.</p>";
+            listaHistorico.innerHTML = "<p style='color: #888;'>Nenhum histórico registrado para este equipamento.</p>";
         }
     }
 }
