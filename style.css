@@ -32,7 +32,7 @@ header p {
     margin-bottom: 20px;
 }
 
-/* Card de Informações Principais */
+/* Card de Informações Principais (Topo) */
 .card {
     border: 1px solid #eee;
     padding: 20px;
@@ -69,7 +69,7 @@ hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
     border-left: 3px solid #ccc;
 }
 
-/* --- SEÇÃO DE HISTÓRICO --- */
+/* --- SEÇÃO DE HISTÓRICO (5 INFORMAÇÕES) --- */
 .historico-secao {
     margin-top: 30px;
     text-align: left;
@@ -86,15 +86,22 @@ hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
 .historico-item {
     background: #ffffff;
     border-left: 4px solid #0056b3; 
-    padding: 12px;
-    margin-bottom: 12px;
-    font-size: 0.9em;
+    padding: 15px; /* Aumentado para acomodar as 5 infos */
+    margin-bottom: 15px;
+    font-size: 0.95em;
     border-radius: 0 8px 8px 0;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08); /* Sombra mais visível */
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
 
 .historico-item p {
-    margin: 6px 0;
+    margin: 8px 0; /* Espaçamento melhor entre linhas */
+}
+
+/* Destaque para o TIPO DE SERVIÇO (Campo novo) */
+.historico-item p strong:contains("Tipo") + span, 
+.historico-item p:nth-child(2) {
+    color: #0056b3;
+    font-weight: 600;
 }
 
 /* Estilo para destacar a próxima manutenção no histórico */
@@ -102,13 +109,21 @@ hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
     color: #d35400; /* Laranja escuro */
     font-weight: bold;
     background: #fff5eb;
-    padding: 4px 8px;
-    border-radius: 4px;
-    display: inline-block;
-    margin-top: 5px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    display: block; /* Ocupa a linha toda para destaque */
+    margin-top: 8px;
+    border: 1px dashed #ffcc99;
 }
 
+/* Utilitários */
 .hidden { display: none; }
 
 #loading { color: #0056b3; font-weight: bold; padding: 20px; }
 #erro { color: #dc3545; font-weight: bold; padding: 20px; }
+
+/* Ajuste Responsivo para Celulares Pequenos */
+@media (max-width: 400px) {
+    #app { padding: 15px; }
+    .historico-item { font-size: 0.85em; }
+}
