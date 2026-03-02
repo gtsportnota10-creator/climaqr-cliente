@@ -1,0 +1,95 @@
+/* Estilos Gerais */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+}
+
+#app {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+header h1 {
+    color: #0056b3; /* Azul padrão do seu app */
+    margin-bottom: 5px;
+}
+
+header p {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Card de Informações */
+.card {
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    text-align: left;
+}
+
+/* Bolinha de Status (Dinâmica) */
+#status-bolinha {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #ccc; /* Cinza enquanto carrega */
+}
+
+.status-verde { background-color: #28a745 !important; }
+.status-vermelho { background-color: #dc3545 !important; }
+.status-laranja { background-color: #fd7e14 !important; }
+
+hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
+
+.relatorio {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+/* NOVO: Estilo para a lista de histórico */
+.historico-secao {
+    margin-top: 20px;
+}
+
+.historico-secao h3 {
+    font-size: 1.1em;
+    color: #0056b3;
+    border-bottom: 2px solid #0056b3;
+    padding-bottom: 5px;
+}
+
+.historico-item {
+    background: #ffffff;
+    border-left: 4px solid #0056b3; /* Barrinha azul lateral */
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.historico-item p {
+    margin: 5px 0;
+}
+
+.hidden { display: none; }
+
+#loading { color: #0056b3; font-weight: bold; }
+#erro { color: #dc3545; font-weight: bold; }
