@@ -37,9 +37,6 @@ function preencherPagina(equipamento) {
     document.getElementById('cliente').innerText = equipamento.cliente_nome;
     document.getElementById('local').innerText = equipamento.localizacao;
     
-    // Preenchendo as datas de resumo do topo (essenciais para o cliente)
-    document.getElementById('data-atual').innerText = equipamento.data_manutencao_atual || "---";
-    document.getElementById('data-proxima').innerText = equipamento.data_proxima_manutencao || "---";
     
     document.getElementById('relatorio-texto').innerText = equipamento.relatorio_geral || "Sem observações.";
 
