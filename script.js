@@ -32,12 +32,10 @@ function preencherPagina(equipamento) {
     document.getElementById('loading').classList.add('hidden');
     document.getElementById('conteudo').classList.remove('hidden');
 
-    // Dados Principais do Equipamento
+    // Preenche apenas dados fixos no topo
     document.getElementById('marca-modelo').innerText = `${equipamento.marca} - ${equipamento.modelo}`;
     document.getElementById('cliente').innerText = equipamento.cliente_nome;
     document.getElementById('local').innerText = equipamento.localizacao;
-    
-    
     document.getElementById('relatorio-texto').innerText = equipamento.relatorio_geral || "Sem observações.";
 
     const bolinha = document.getElementById('status-bolinha');
@@ -47,20 +45,20 @@ function preencherPagina(equipamento) {
     if (listaHistorico && equipamento.manutencoes) {
         listaHistorico.innerHTML = ""; 
         
-        // Ordena para o mais recente (ID maior) ficar em cima, igual ao seu App
-        const manutençõesOrdenadas = equipamento.manutencoes.sort((a, b) => b.id - a.id);
+        // Ordena para o mais recente ficar em cima
+        const manutencoesOrdenadas = equipamento.manutencoes.sort((a, b) => b.id - a.id);
 
-        manutençõesOrdenadas.forEach(servico => {
+        manutencoesOrdenadas.forEach(servico => {
             const item = document.createElement('div');
             item.className = 'historico-item';
             
-            // AGORA COM AS 5 INFORMAÇÕES TÉCNICAS (Fiel à sua tabela Supabase)
+            // AS 5 INFORMAÇÕES COMPLETAS (Fiel à sua tabela e ao App Android)
             item.innerHTML = `
-                <p><strong>📅 Data:</strong> ${servico.data_servico || '---'}</p>
+                <p><strong>📅 Data do Serviço:</strong> ${servico.data_servico || '---'}</p>
                 <p><strong>🛠️ Tipo:</strong> ${servico.tipo_servico || 'Serviço'}</p>
                 <p><strong>📝 Descrição:</strong> ${servico.descricao_servico || 'Sem descrição'}</p>
                 <p><strong>👤 Técnico:</strong> ${servico.tecnico_responsavel || 'Não informado'}</p>
-                <p class="proxima-manutencao-texto"><strong>⏭️ Próxima:</strong> ${servico.proxima_data || '---'}</p>
+                <p class="proxima-manutencao-texto"><strong>⏭️ Próxima Manutenção:</strong> ${servico.proxima_data || '---'}</p>
                 <hr style="border: 0.5px solid #eee; margin: 10px 0;">
             `;
             listaHistorico.appendChild(item);
