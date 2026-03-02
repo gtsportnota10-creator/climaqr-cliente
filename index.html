@@ -21,23 +21,27 @@
                 <p><strong>Localização:</strong> <span id="local">---</span></p>
                 <hr>
                 <p><strong>Última Manutenção:</strong> <span id="data-atual">---</span></p>
-                <p><strong>Próxima Manutenção:</strong> <span id="data-proxima">---</span></p>
+                <p><strong>Próxima Manutenção:</strong> <span id="data-proxima" style="color: #d35400; font-weight: bold;">---</span></p>
                 
                 <div class="relatorio">
                     <h3>Relatório Geral</h3>
                     <p id="relatorio-texto">---</p>
                 </div>
+            </div>
 
-                <div class="historico-secao">
-                    <h3>Histórico de Serviços</h3>
-                    <div id="historico-lista">
-                        </div>
-                </div>
+            <div class="historico-secao">
+                <h3>Histórico de Serviços</h3>
+                <div id="historico-lista">
+                    </div>
             </div>
         </main>
 
         <div id="loading">Buscando informações do equipamento...</div>
         <div id="erro" class="hidden">Equipamento não encontrado ou QR Code inválido.</div>
+        
+        <footer style="margin-top: 20px; font-size: 0.8em; color: #999;">
+            <p>&copy; 2026 ClimaQR Pro - Sistema de Gestão</p>
+        </footer>
     </div>
 
     <script src="script.js"></script>
