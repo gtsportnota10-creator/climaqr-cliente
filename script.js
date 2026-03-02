@@ -32,10 +32,14 @@ function preencherPagina(equipamento) {
     document.getElementById('loading').classList.add('hidden');
     document.getElementById('conteudo').classList.remove('hidden');
 
+    // Dados Principais do Equipamento
     document.getElementById('marca-modelo').innerText = `${equipamento.marca} - ${equipamento.modelo}`;
     document.getElementById('cliente').innerText = equipamento.cliente_nome;
     document.getElementById('local').innerText = equipamento.localizacao;
     
+    // Preenchendo as datas de resumo do topo (essenciais para o cliente)
+    document.getElementById('data-atual').innerText = equipamento.data_manutencao_atual || "---";
+    document.getElementById('data-proxima').innerText = equipamento.data_proxima_manutencao || "---";
     
     document.getElementById('relatorio-texto').innerText = equipamento.relatorio_geral || "Sem observações.";
 
@@ -46,14 +50,14 @@ function preencherPagina(equipamento) {
     if (listaHistorico && equipamento.manutencoes) {
         listaHistorico.innerHTML = ""; 
         
-        // Ordena para o mais recente (ID maior) ficar em cima
+        // Ordena para o mais recente (ID maior) ficar em cima, igual ao seu App
         const manutençõesOrdenadas = equipamento.manutencoes.sort((a, b) => b.id - a.id);
 
         manutençõesOrdenadas.forEach(servico => {
             const item = document.createElement('div');
             item.className = 'historico-item';
             
-            // AGORA COM AS 5 INFORMAÇÕES CORRETAS DA TABELA:
+            // AGORA COM AS 5 INFORMAÇÕES TÉCNICAS (Fiel à sua tabela Supabase)
             item.innerHTML = `
                 <p><strong>📅 Data:</strong> ${servico.data_servico || '---'}</p>
                 <p><strong>🛠️ Tipo:</strong> ${servico.tipo_servico || 'Serviço'}</p>
