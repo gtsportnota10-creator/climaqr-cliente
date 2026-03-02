@@ -39,7 +39,6 @@ function preencherPagina(equipamento) {
     document.getElementById('loading').classList.add('hidden');
     document.getElementById('conteudo').classList.remove('hidden');
 
-    // Dados principais do equipamento
     document.getElementById('marca-modelo').innerText = `${equipamento.marca} - ${equipamento.modelo}`;
     document.getElementById('cliente').innerText = equipamento.cliente_nome;
     document.getElementById('local').innerText = equipamento.localizacao;
@@ -47,38 +46,34 @@ function preencherPagina(equipamento) {
     document.getElementById('data-proxima').innerText = equipamento.data_proxima_manutencao;
     document.getElementById('relatorio-texto').innerText = equipamento.relatorio_geral || "Nenhuma observação técnica.";
 
-    // Bolinha de Status
     const bolinha = document.getElementById('status-bolinha');
     bolinha.className = equipamento.status_alerta ? 'status-vermelho' : 'status-verde';
 
-    // --- HISTÓRICO (AJUSTADO COM OS NOMES DO KOTLIN) ---
+    // --- LÓGICA DO HISTÓRICO CORRIGIDA ---
     const listaHistorico = document.getElementById('historico-lista');
     if (listaHistorico && equipamento.manutencoes) {
         listaHistorico.innerHTML = ""; 
 
-        // Ordenar as manutenções (mais recente primeiro)
-        const manutençõesOrdenadas = equipamento.manutencoes.sort((a, b) => {
-            // Tenta criar datas para comparar. Se a data for dd/MM/yyyy, o JS pode precisar de ajuste, 
-            // mas o sort padrão por string costuma ajudar se o formato for constante.
-            return b.id - a.id; // Ordenar pelo ID costuma ser mais seguro para pegar o último inserido
-        });
+        // Ordenar pela data de serviço (mais recente primeiro)
+        const manutençõesOrdenadas = equipamento.manutencoes.sort((a, b) => b.id - a.id);
 
         manutençõesOrdenadas.forEach(servico => {
             const item = document.createElement('div');
             item.className = 'historico-item';
             
-            // AQUI ESTÁ A CORREÇÃO: Usando os nomes exatos do seu put() no Kotlin
+            // Agora com a Próxima Manutenção inclusa:
             item.innerHTML = `
-                <p><strong>Data:</strong> ${servico.data_servico || '---'}</p>
-                <p><strong>Serviço:</strong> ${servico.descricao_servico || 'Sem descrição'}</p>
+                <p><strong>Data do Serviço:</strong> ${servico.data_servico || '---'}</p>
+                <p><strong>Serviço Realizado:</strong> ${servico.descricao_servico || 'Sem descrição'}</p>
                 <p><strong>Técnico:</strong> ${servico.tecnico_responsavel || 'Não informado'}</p>
-                <hr style="border: 0.5px solid #eee; margin-top: 10px;">
+                <p style="color: #e67e22;"><strong>Próxima Manutenção:</strong> ${servico.proxima_data || 'Não agendada'}</p>
+                <hr style="border: 0.5px solid #eee; margin-top: 10px; margin-bottom: 10px;">
             `;
             listaHistorico.appendChild(item);
         });
 
         if (manutençõesOrdenadas.length === 0) {
-            listaHistorico.innerHTML = "<p style='color: #888;'>Nenhum histórico registrado.</p>";
+            listaHistorico.innerHTML = "<p>Nenhum histórico registrado.</p>";
         }
     }
 }
