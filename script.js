@@ -35,8 +35,8 @@ function preencherPagina(equipamento) {
     document.getElementById('marca-modelo').innerText = `${equipamento.marca} - ${equipamento.modelo}`;
     document.getElementById('cliente').innerText = equipamento.cliente_nome;
     document.getElementById('local').innerText = equipamento.localizacao;
-    document.getElementById('data-atual').innerText = equipamento.data_manutencao_atual;
-    document.getElementById('data-proxima').innerText = equipamento.data_proxima_manutencao;
+    
+    
     document.getElementById('relatorio-texto').innerText = equipamento.relatorio_geral || "Sem observações.";
 
     const bolinha = document.getElementById('status-bolinha');
@@ -46,17 +46,18 @@ function preencherPagina(equipamento) {
     if (listaHistorico && equipamento.manutencoes) {
         listaHistorico.innerHTML = ""; 
         
-        // Ordena para o mais recente ficar em cima
+        // Ordena para o mais recente (ID maior) ficar em cima
         const manutençõesOrdenadas = equipamento.manutencoes.sort((a, b) => b.id - a.id);
 
         manutençõesOrdenadas.forEach(servico => {
             const item = document.createElement('div');
             item.className = 'historico-item';
             
-            // AQUI ESTÁ A CHAVE: Nomes idênticos aos da imagem image_07f21b.png
+            // AGORA COM AS 5 INFORMAÇÕES CORRETAS DA TABELA:
             item.innerHTML = `
                 <p><strong>📅 Data:</strong> ${servico.data_servico || '---'}</p>
-                <p><strong>🛠️ Serviço:</strong> ${servico.descricao_servico || 'Sem descrição'}</p>
+                <p><strong>🛠️ Tipo:</strong> ${servico.tipo_servico || 'Serviço'}</p>
+                <p><strong>📝 Descrição:</strong> ${servico.descricao_servico || 'Sem descrição'}</p>
                 <p><strong>👤 Técnico:</strong> ${servico.tecnico_responsavel || 'Não informado'}</p>
                 <p class="proxima-manutencao-texto"><strong>⏭️ Próxima:</strong> ${servico.proxima_data || '---'}</p>
                 <hr style="border: 0.5px solid #eee; margin: 10px 0;">
