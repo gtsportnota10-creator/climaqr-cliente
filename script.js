@@ -28,11 +28,37 @@ async function buscarEquipamento() {
     }
 }
 
-function preencherPagina(equipamento) {
+// Transformamos em async para poder buscar a logo no banco
+async function preencherPagina(equipamento) {
     document.getElementById('loading').classList.add('hidden');
     document.getElementById('conteudo').classList.remove('hidden');
 
-    // Preenche apenas dados fixos no topo
+    // === BLOCO ADICIONADO PARA LOGO E NOME DA EMPRESA ===
+    if (equipamento.empresa_nome) {
+        try {
+            const respEmpresa = await fetch(`${BASE_URL}/perfis_empresa?nome_empresa=eq.${encodeURIComponent(equipamento.empresa_nome)}&select=logo_url`, {
+                method: 'GET',
+                headers: { 'apikey': API_KEY, 'Authorization': `Bearer ${API_KEY}` }
+            });
+            const dadosEmpresa = await respEmpresa.json();
+
+            if (dadosEmpresa && dadosEmpresa.length > 0) {
+                // Atualiza o nome no header
+                document.getElementById('nome-empresa-header').innerText = equipamento.empresa_nome;
+                
+                // Se existir logo_url, exibe a imagem
+                if (dadosEmpresa[0].logo_url) {
+                    document.getElementById('logo-empresa').src = dadosEmpresa[0].logo_url;
+                    document.getElementById('container-logo-empresa').classList.remove('hidden');
+                }
+            }
+        } catch (e) {
+            console.error("Erro ao buscar perfil da empresa", e);
+        }
+    }
+    // =================================================
+
+    // Preenche apenas dados fixos no topo (Seu código original)
     document.getElementById('marca-modelo').innerText = `${equipamento.marca} - ${equipamento.modelo}`;
     document.getElementById('cliente').innerText = equipamento.cliente_nome;
     document.getElementById('local').innerText = equipamento.localizacao;
@@ -45,14 +71,12 @@ function preencherPagina(equipamento) {
     if (listaHistorico && equipamento.manutencoes) {
         listaHistorico.innerHTML = ""; 
         
-        // Ordena para o mais recente ficar em cima
         const manutencoesOrdenadas = equipamento.manutencoes.sort((a, b) => b.id - a.id);
 
         manutencoesOrdenadas.forEach(servico => {
             const item = document.createElement('div');
             item.className = 'historico-item';
             
-            // AS 5 INFORMAÇÕES COMPLETAS (Fiel à sua tabela e ao App Android)
             item.innerHTML = `
                 <p><strong>📅 Data do Serviço:</strong> ${servico.data_servico || '---'}</p>
                 <p><strong>🛠️ Tipo:</strong> ${servico.tipo_servico || 'Serviço'}</p>
